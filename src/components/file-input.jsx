@@ -3,6 +3,9 @@ import { useDropzone } from "react-dropzone";
 import "./file-input.css";
 import ImageMarker from "react-image-marker";
 import { checkIfEmailInString, extactEmail, placeholder } from "../const/utils";
+import pinActive from "../common/assets/pin2.png";
+import pinInactive from "../common/assets/pin.png";
+
 const FileUpload = ({
   uploadedFile,
   acceptedFileFormat,
@@ -12,9 +15,8 @@ const FileUpload = ({
   const [file, setFiles] = useState([]);
   const [markers, setMarkers] = useState([]);
   const [value, setValue] = useState({ body: "" });
-
   const CustomMarker = (props) => {
-    return <div className="custom-marker"></div>;
+    return <img style={{ with: "12px", height: "30px" }} src={pinActive} />;
   };
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -37,7 +39,7 @@ const FileUpload = ({
     if (checkIfEmailInString(value.body)) {
       // send email
       const sendEmailTo = extactEmail(value.body);
-      console.log(sendEmailTo);
+      alert(`We need email service to send an email to ${sendEmailTo}`);
     }
     event.preventDefault();
   };
@@ -80,7 +82,9 @@ const FileUpload = ({
             <ImageMarker
               src={file.preview}
               markers={markers}
-              onAddMarker={(Marker) => setMarkers([...markers, Marker])}
+              onAddMarker={(Marker) => {
+                console.log(Marker,...markers);
+                setMarkers([...markers, Marker])}}
               markerComponent={CustomMarker}
             />
           </div>
